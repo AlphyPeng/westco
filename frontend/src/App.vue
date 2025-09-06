@@ -1,12 +1,27 @@
 <template>
-  <ThemeProvider>
-    <SidebarProvider>
-      <RouterView />
-    </SidebarProvider>
-  </ThemeProvider>
+  <div id="app">
+    <component :is="layout">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </component>
+  </div>
 </template>
 
-<script setup lang="ts">
-import ThemeProvider from './components/layout/ThemeProvider.vue'
-import SidebarProvider from './components/layout/SidebarProvider.vue'
+<script>
+const default_layout = 'default'
+
+export default {
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || default_layout) + '-layout'
+    }
+  }
+}
 </script>
+
+<style lang="scss">
+@import 'assets/base.scss';
+</style>
