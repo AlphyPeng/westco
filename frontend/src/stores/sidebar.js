@@ -34,6 +34,11 @@ export const useSidebarStore = defineStore('sidebar', () => {
       icon: 'pe-7s-user',
       children: [
         {
+          id: 'student_information',
+          title: 'Student Information',
+          route: '/pages/student-information'
+        },
+        {
           id: 'login',
           title: 'Login',
           route: '/pages/login-boxed'

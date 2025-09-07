@@ -2,14 +2,10 @@
   <div class="min-vh-100 d-flex">
     <!-- Left Panel - Brand/Marketing -->
     <div class="d-none d-lg-flex col-lg-6 bg-dark position-relative overflow-hidden">
-      <div
-        class="position-absolute w-100 h-100"
-        style="background: linear-gradient(135deg, #69aa8a 0%, #5a9677 100%)"
-      ></div>
-      <div
-        class="d-flex flex-column justify-content-center align-items-center text-white p-5 position-relative"
-        style="z-index: 2"
-      >
+      <div class="position-absolute w-100 h-100" style="background: linear-gradient(135deg, #69aa8a 0%, #5a9677 100%)">
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center text-white p-5 position-relative"
+        style="z-index: 2">
         <div class="mb-4">
           <div class="bg-white bg-opacity-10 rounded-4 p-4">
             <i class="pe-7s-home text-white" style="font-size: 3rem"></i>
@@ -40,22 +36,16 @@
         </div>
 
         <!-- Login Form -->
-        <form>
+        <form @submit.prevent="handleSignIn">
           <div class="mb-4">
             <label for="email" class="form-label text-dark fw-medium mb-2">Email address</label>
-            <b-form-input id="email" type="email" size="lg" placeholder="Enter your email" class="py-3" required />
+            <b-form-input v-model="email" type="email" size="lg" placeholder="Enter your email" class="py-3" required />
           </div>
 
           <div class="mb-4">
             <label for="password" class="form-label text-dark fw-medium mb-2">Password</label>
-            <b-form-input
-              id="password"
-              type="password"
-              size="lg"
-              placeholder="Enter your password"
-              class="py-3"
-              required
-            />
+            <b-form-input v-model="password" type="password" size="lg" placeholder="Enter your password" class="py-3"
+              required />
           </div>
 
           <div class="d-flex justify-content-between align-items-center mb-4">
@@ -66,7 +56,7 @@
           </div>
 
           <div class="d-grid mb-4">
-            <b-button variant="primary" size="lg" class="fw-medium py-3"> Sign in to Dashboard </b-button>
+            <b-button type="submit" variant="primary" size="lg" class="fw-medium py-3"> Sign in to Dashboard </b-button>
           </div>
 
           <div class="text-center">
@@ -86,8 +76,35 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LoginBoxed'
+<script setup>
+import { ref } from "vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+// const showPassword = ref(false);
+// const keepLoggedIn = ref(false);
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value
+};
+
+const handleSignIn = async () => {
+  try {
+    await axios.get('/sanctum/csrf-cookie', { withCredentials: true });
+
+    const response = await axios.post('/api/signIn', {
+      email: email.value,
+      password: password.value
+    }, { withCredentials: true });
+
+    // Redirect to main dashboard
+    router.push({ name: 'analytics' });
+
+  } catch (e) {
+    console.error('Signup error:', e);
+  }
 }
 </script>

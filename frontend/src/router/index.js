@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, routerKey } from 'vue-router'
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(import.meta.env.PROD ? '/architectui-vue-free/' : '/'),
   scrollBehavior() {
     return { top: 0, behavior: 'smooth' }
@@ -20,7 +20,11 @@ export default createRouter({
     },
 
     // Pages
-
+    {
+      path: '/pages/student-information',
+      name: 'student-information',
+      component: () => import('../DemoPages/UserPages/StudentInformation/index.vue')
+    },
     {
       path: '/pages/login-boxed',
       name: 'login-boxed',
@@ -163,3 +167,6 @@ export default createRouter({
     }
   ]
 })
+
+
+export default router;
