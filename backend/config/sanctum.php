@@ -21,6 +21,8 @@ return [
         Sanctum::currentApplicationUrlWithPort(),
         // Sanctum::currentRequestHost(),
     ))),
+    // 'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost:8088')), // replace with your frontend URL/port
+
 
     /*
     |--------------------------------------------------------------------------
