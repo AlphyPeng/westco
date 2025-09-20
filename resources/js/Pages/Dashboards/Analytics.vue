@@ -780,7 +780,7 @@ export default {
   mounted() {
     // Set page title using UI store
     this.uiStore.setPageTitle(
-      'Westco',
+      'Pamav',
       'This is an example dashboard created using build-in elements and components.'
     )
 
