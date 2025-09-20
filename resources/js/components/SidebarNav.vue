@@ -3,12 +3,8 @@
     <div class="app-header__logo">
       <div class="logo-src" />
       <div class="sidebar-header-controls">
-        <button
-          type="button"
-          class="hamburger close-sidebar-btn hamburger--elastic"
-          :class="{ 'is-active': sidebarStore.isCollapsed }"
-          @click="sidebarStore.toggleCollapse"
-        >
+        <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+          :class="{ 'is-active': sidebarStore.isCollapsed }" @click="sidebarStore.toggleCollapse">
           <span class="hamburger-box">
             <span class="hamburger-inner"></span>
           </span>

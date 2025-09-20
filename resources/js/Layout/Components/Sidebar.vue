@@ -3,12 +3,8 @@
     <div class="app-header__logo">
       <div class="logo-src" />
       <div class="sidebar-header-controls">
-        <button
-          type="button"
-          class="hamburger close-sidebar-btn hamburger--elastic"
-          :class="{ 'is-active': isOpen }"
-          @click="toggleBodyClass('closed-sidebar')"
-        >
+        <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" :class="{ 'is-active': isOpen }"
+          @click="toggleBodyClass('closed-sidebar')">
           <span class="hamburger-box">
             <span class="hamburger-inner"></span>
           </span>
@@ -48,6 +44,10 @@
               <i class="metismenu-state-icon pe-7s-angle-down" :class="{ 'rotate-minus-90': !submenus.pages }"></i>
             </div>
             <div class="menu-submenu" v-show="submenus.pages">
+              <router-link to="/pages/student" class="menu-sublink">
+                <i class="metismenu-icon"></i>
+                Student
+              </router-link>
               <router-link to="/pages/login-boxed" class="menu-sublink">
                 <i class="metismenu-icon"></i>
                 Login
@@ -111,11 +111,8 @@
           </div>
 
           <div class="menu-item" :class="{ 'parent-active-item': isSubmenuActive('components') }">
-            <div
-              class="menu-link"
-              @click="toggleSubmenu('components')"
-              :class="{ active: isSubmenuActive('components') }"
-            >
+            <div class="menu-link" @click="toggleSubmenu('components')"
+              :class="{ active: isSubmenuActive('components') }">
               <div class="menu-link-content">
                 <i class="metismenu-icon pe-7s-plugin"></i>
                 <span class="menu-text">Components</span>
@@ -467,14 +464,14 @@ export default {
   font-weight: 600;
 }
 
-.menu-item.active-item > .menu-link {
+.menu-item.active-item>.menu-link {
   font-weight: 600;
   background: #f8f9fa;
   color: #69aa8a;
 }
 
-.menu-item.parent-active-item > .menu-link,
-.menu-item.open-item > .menu-link {
+.menu-item.parent-active-item>.menu-link,
+.menu-item.open-item>.menu-link {
   font-weight: 600;
   color: #69aa8a;
   background: #f8f9fa;
@@ -801,6 +798,7 @@ export default {
     opacity: 0;
     transform: translateX(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);

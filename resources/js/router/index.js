@@ -20,7 +20,11 @@ export default createRouter({
     },
 
     // Pages
-
+    {
+      path: '/pages/student',
+      name: 'student',
+      component: () => import('../Pages/Student/Student.vue')
+    },
     {
       path: '/pages/login-boxed',
       name: 'login-boxed',
