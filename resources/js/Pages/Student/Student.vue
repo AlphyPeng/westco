@@ -32,8 +32,8 @@
                 </div>
             </div>
 
-            <b-table v-else class="text-center" :items="data" :fields="fields" :striped="true" :bordered="true"
-                :hover="true" :responsive="true" show-empty>
+            <b-table v-else class="text-center" :items="paginatedItems" :fields="fields" :striped="true"
+                :bordered="true" :hover="true" :responsive="true" :show-empty="true" empty-text="No data available">
 
                 <!-- Custom slot for actions column -->
                 <template #cell(actions)="data">
@@ -49,14 +49,18 @@
                         </button>
                     </div>
                 </template>
-
-                <!-- No data -->
-                <template #empty>
-                    <div class="text-center my-2">
-                        <p class="lead">No data to display.</p>
-                    </div>
-                </template>
             </b-table>
+
+            <!-- Pagination -->
+            <div v-if="totalRows > perPage" class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Showing {{ (currentPage - 1) * perPage + 1 }} to {{ Math.min(currentPage * perPage, totalRows) }} of
+                    {{ totalRows }} entries
+                </div>
+                <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" size="sm" class="mb-0"
+                    aria-label="Table pagination">
+                </b-pagination>
+            </div>
         </b-card>
 
         <!-- Modal -->
@@ -84,6 +88,7 @@ export default {
             isLoading: false,
             isCreateModal: false,
 
+            // Table
             fields: [
                 { key: 'full_name', label: 'Name' },
                 { key: 'program_name', label: 'Program' },
@@ -94,11 +99,45 @@ export default {
                 { key: 'actions', label: 'Action' },
             ],
             data: [],
+
+            // Pagination and filtering
+            currentPage: 1,
+            perPage: 10,
+            filter: ''
         }
     },
 
     mounted() {
         this.getStudentLists();
+    },
+
+    computed: {
+        filteredItems() {
+            if (!this.filter || !Array.isArray(this.data)) {
+                return this.data || []
+            }
+            const filterLower = this.filter.toLowerCase()
+            return this.data.filter(item => {
+                if (!item || typeof item !== 'object') return false
+                return Object.values(item).some(value => {
+                    if (value === null || value === undefined) return false
+                    return String(value).toLowerCase().includes(filterLower)
+                })
+            })
+        },
+
+        paginatedItems() {
+            const filtered = this.filteredItems
+            if (!Array.isArray(filtered)) return []
+
+            const start = (this.currentPage - 1) * this.perPage
+            const end = start + this.perPage
+            return filtered.slice(start, end)
+        },
+
+        totalRows() {
+            return Array.isArray(this.filteredItems) ? this.filteredItems.length : 0
+        }
     },
 
     methods: {
