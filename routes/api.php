@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
 
 // Pages START
 Route::prefix('student')->group(function () {
+    Route::get('/get_student_lists', [Student::class, 'getStudentLists']);
     Route::post('/create_student', [Student::class, 'createStudent']);
 });
 // Pages START

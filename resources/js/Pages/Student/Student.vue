@@ -26,8 +26,14 @@
                 </b-row>
             </div>
 
-            <b-table :items="users" :fields="fields" :striped="true" :bordered="true" :hover="true" :responsive="true"
-                show-empty>
+            <div v-if="isLoading" class="text-center my-3">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <b-table v-else :items="data" :fields="fields" :striped="true" :bordered="true" :hover="true"
+                :responsive="true" show-empty>
                 <template #empty>
                     <div class="text-center my-2">
                         <p class="lead">No data to display.</p>
@@ -37,11 +43,12 @@
         </b-card>
 
         <!-- Modal -->
-        <CreateModal v-model:isVisible="isCreateModal"></CreateModal>
+        <CreateModal v-model:isVisible="isCreateModal" @student-lists="getStudentLists"></CreateModal>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import PageTitle from '../../Layout/Components/PageTitle.vue';
 
 import CreateModal from './Modal/CreateModal.vue';
@@ -57,35 +64,45 @@ export default {
             heading: 'Student',
             icon: 'pe-7s-study icon-gradient bg-premium-dark',
 
+            isLoading: false,
             isCreateModal: false,
 
             fields: [
-                { key: 'name', label: 'Name' },
+                { key: 'full_name', label: 'Name' },
                 { key: 'program_name', label: 'Program' },
                 { key: 'start_of_training', label: 'Start of Training' },
                 { key: 'date_completed', label: 'Date Completed' },
                 { key: 'training_status', label: 'Training Status' },
-                { key: 'trainig_expiration', label: 'Training Expiration' },
+                { key: 'training_expiration', label: 'Training Expiration' },
                 { key: 'action', label: 'Action' },
             ],
-            // Define the data to be displayed in the table
-            users: [
-                { id: 1, name: 'John Doe' },
-                { id: 2, name: 'Jane Smith' },
-                { id: 3, name: 'Peter Jones' },
-                { id: 4, name: 'Alice Brown' },
-                { id: 4, name: 'Alice Brown' },
-                { id: 4, name: 'Alice Brown' },
-                { id: 4, name: 'Alice Brown' },
-                { id: 4, name: 'Alice Brown' },
-            ],
+            data: [],
         }
+    },
+
+    mounted() {
+        this.getStudentLists();
     },
 
     methods: {
         openModal() {
             this.isCreateModal = true;
         },
+
+        async getStudentLists() {
+            this.isLoading = true;
+
+            try {
+                const response = await axios.get('/api/student/get_student_lists')
+
+                this.data = response.data.data;
+
+            } catch (e) {
+
+            } finally {
+                this.isLoading = false;
+            }
+        }
     }
 }
 </script>
