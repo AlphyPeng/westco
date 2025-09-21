@@ -17,7 +17,7 @@ class Student extends Controller
             'middle_name'         => 'required|max:100',
             'last_name'           => 'required|max:100',
             'email'               => 'required|email|max:150',
-            'contact_no'          => 'required|numeric|max:11',
+            'contact_no'          => 'required|numeric|digits:11',
             'membership_id'       => 'required|max:50',
             'program_name'        => 'required|max:150',
             'training_status'     => 'required|max:50',

@@ -11,8 +11,8 @@
 
 .modal-dialog {
   z-index: 1056 !important;
-  box-shadow: $box-shadow-lg-default;
-  @include border-radius($border-radius);
+  // box-shadow: $box-shadow-lg-default;
+  // @include border-radius($border-radius);
 }
 
 .modal-header,

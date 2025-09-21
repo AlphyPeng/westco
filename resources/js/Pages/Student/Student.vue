@@ -32,8 +32,25 @@
                 </div>
             </div>
 
-            <b-table v-else :items="data" :fields="fields" :striped="true" :bordered="true" :hover="true"
-                :responsive="true" show-empty>
+            <b-table v-else class="text-center" :items="data" :fields="fields" :striped="true" :bordered="true"
+                :hover="true" :responsive="true" show-empty>
+
+                <!-- Custom slot for actions column -->
+                <template #cell(actions)="data">
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary btn-sm" @click="editItem(data.item)">
+                            <font-awesome-icon icon="edit" />
+                        </button>
+                        <button class="btn btn-outline-info btn-sm" @click="editItem(data.item)">
+                            <font-awesome-icon icon="eye" />
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm" @click="deleteItem(data.item)">
+                            <font-awesome-icon icon="trash" />
+                        </button>
+                    </div>
+                </template>
+
+                <!-- No data -->
                 <template #empty>
                     <div class="text-center my-2">
                         <p class="lead">No data to display.</p>
@@ -74,7 +91,7 @@ export default {
                 { key: 'date_completed', label: 'Date Completed' },
                 { key: 'training_status', label: 'Training Status' },
                 { key: 'training_expiration', label: 'Training Expiration' },
-                { key: 'action', label: 'Action' },
+                { key: 'actions', label: 'Action' },
             ],
             data: [],
         }

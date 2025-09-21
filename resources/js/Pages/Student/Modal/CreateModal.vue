@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal :visible="isVisible" title="Create Student Details" size="lg" @hide="closeModal">
+        <b-modal :visible="isVisible" title="Create Student Details" size="lg" @hide="closeModal" centered>
             <b-form>
                 <h5 class="card-title">Personal Details</h5>
 
@@ -69,7 +69,7 @@
                         <label class="form-label">Training Status:</label>
                         <b-form-input type="text" v-model="form.training_status"
                             :state="errors.training_status ? false : null">
-                        </b-form-input>.
+                        </b-form-input>
                         <div class="invalid-feedback d-block">
                             {{ errors.training_status?.[0] }}
                         </div>
@@ -110,11 +110,11 @@
             <template #footer>
                 <div class="w-100">
                     <div class="float-end">
-                        <b-button variant="secondary" size="sm" class="me-2" @click="closeModal">
+                        <b-button variant="secondary" size="sm" class="me-2" @click="closeModal" :disabled="isLoading">
                             <span v-if="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                             <span v-else>Close</span>
                         </b-button>
-                        <b-button @click="createStudent" variant="primary" size="sm">
+                        <b-button @click="createStudent" variant="primary" size="sm" :disabled="isLoading">
                             <span v-if="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                             <span v-else>Save changes</span>
                         </b-button>
@@ -202,8 +202,13 @@ export default {
             } finally {
                 this.isLoading = false;
             }
+        },
+
+        showModal() {
+            this.$bvModal.show('my-centered-modal');
         }
     }
 }
 </script>
+
 <style></style>
